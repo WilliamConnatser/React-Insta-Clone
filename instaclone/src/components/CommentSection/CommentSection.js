@@ -13,7 +13,6 @@ export default class CommentSection extends Component {
         return (
             <div>
                 {comments}
-                <input type="text"/>
             </div>
         )
     }
