@@ -1,3 +1,7 @@
+.Comment {
+    font-size: 1rem;
+}
+
 .Comment .username {
     font-weight: 800;
     margin-right: 20px;
