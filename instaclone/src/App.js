@@ -18,7 +18,8 @@ class App extends Component {
         super();
 
         this.state = {
-            posts: []
+            posts: [],
+            username: "KimKardashian"
         }
     }
 
@@ -42,7 +43,7 @@ class App extends Component {
             const currentPosts = [...this.state.posts];
             const i = this.getIndexFromId(event.target.id);
             currentPosts[i].comments.push({
-              username: "loggedInUser",
+              username: this.state.username,
               text: currentPosts[i].commentInput
             });
             currentPosts[i].commentInput = "";
