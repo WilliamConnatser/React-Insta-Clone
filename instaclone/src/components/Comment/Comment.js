@@ -1,14 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import './Comment.css';
+import styled from 'styled-components';
 
 export default class Comment extends Component {
     render() {
+        const CommentContainer = styled.div`
+        
+            font-size: 1rem;
+        
+            .username {
+                font-weight: 800;
+                margin-right: 20px;
+            }
+        `;
         return (
-            <div className="Comment">
+            <CommentContainer>
                 <span className="username">{this.props.comment.username}</span>
                 <span className="text">{this.props.comment.text}</span>
-            </div>
+            </CommentContainer>
         )
     }
 }
