@@ -36,7 +36,8 @@ export default class PostContainer extends Component {
                 <div className="section section-footer">
                     <CommentSection
                         post={this.props.post}
-                        submitCommentHandler={this.props.submitCommentHandler}/>
+                        submitCommentHandler={this.props.submitCommentHandler}
+                        deleteCommentHandler={this.props.deleteCommentHandler}/>
                 </div>
             </section>
         )
@@ -55,5 +56,6 @@ PostContainer.propTypes = {
         commentInput: PropTypes.string
     }),
     submitCommentHandler: PropTypes.func,
-    toggleLikeHandler: PropTypes.func
+    toggleLikeHandler: PropTypes.func,
+    deleteCommentHandler: PropTypes.func
 };

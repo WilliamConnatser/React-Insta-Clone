@@ -7,6 +7,11 @@
     margin-right: 20px;
 }
 
-.Comment .text {
+.Comment .icon-wrapper {
+    margin-right: 10px;
+    cursor: pointer;
+}
 
+.Comment .icon {
+    font-size: .7rem;
 }

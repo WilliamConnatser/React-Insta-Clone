@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
+import {faHeart as faSolidHeart, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {faComment, faCompass, faHeart, faUser} from '@fortawesome/free-regular-svg-icons';
 import {faInstagram} from '@fortawesome/free-brands-svg-icons';
 
@@ -10,7 +10,7 @@ import dummyData from './dummy-data';
 import SearchBar from './components/SearchBar/SearchBar';
 import PostContainer from './components/PostContainer/PostContainer';
 
-library.add(faComment, faCompass, faInstagram, faHeart, faSolidHeart, faUser);
+library.add(faComment, faCompass, faHeart, faUser, faSolidHeart, faTrashAlt, faInstagram);
 
 class App extends Component {
 
@@ -59,13 +59,32 @@ class App extends Component {
         const i = this.getIndexFromId(event.target.id);
         currentPosts[i]
             .comments
-            .push({username: this.state.username, text: event.target.newcomment.value});
+            .push({
+                id: currentPosts[i].comments.length + 1 + "",
+                username: this.state.username,
+                text: event.target.newcomment.value
+            });
         currentPosts[i].commentInput = "";
         this.setState({posts: currentPosts});
     }
 
     filterChangeHandler = event => {
         this.setState({filter: event.target.value});
+    }
+
+    deleteCommentHandler = postId => event => {
+        const currentPosts = [...this.state.posts];
+        const postIndex = this.getIndexFromId(postId);
+        currentPosts[postIndex].comments = currentPosts[postIndex]
+            .comments
+            .filter(function (comment) {
+                return comment.id !== event.currentTarget.id;
+            })
+            .map(function (comment, index) {
+                comment.id = index + 1 + "";
+                return comment;
+            });
+        this.setState({posts: currentPosts});
     }
 
     getIndexFromId(id) {
@@ -75,15 +94,20 @@ class App extends Component {
 
     render() {
 
-        const posts = this.state.posts.filter(post => {
-            return post
-                .username
-                .includes(this.state.filter);
-        }).map(post => <PostContainer
-            post={post}
-            key={post.id}
-            submitCommentHandler={this.submitCommentHandler}
-            toggleLikeHandler={this.toggleLikeHandler}/>);
+        const posts = this
+            .state
+            .posts
+            .filter(post => {
+                return post
+                    .username
+                    .includes(this.state.filter);
+            })
+            .map(post => <PostContainer
+                post={post}
+                key={post.id}
+                submitCommentHandler={this.submitCommentHandler}
+                toggleLikeHandler={this.toggleLikeHandler}
+                deleteCommentHandler={this.deleteCommentHandler}/>);
 
         return (
             <div className="App">

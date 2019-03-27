@@ -22,7 +22,11 @@ export default class CommentSection extends Component {
             .props
             .post
             .comments
-            .map((comment, i) => <Comment comment={comment} key={i}/>);
+            .map((comment, i) => <Comment
+                postId={this.props.post.id}
+                comment={comment}
+                key={i}
+                deleteCommentHandler={this.props.deleteCommentHandler}/>);
 
         return (
             <div>
@@ -52,5 +56,6 @@ CommentSection.propTypes = {
         comments: PropTypes.arrayOf(PropTypes.shape({username: PropTypes.string, text: PropTypes.string})),
         commentInput: PropTypes.string
     }),
-    submitCommentHandler: PropTypes.func
+    submitCommentHandler: PropTypes.func,
+    deleteCommentHandler: PropTypes.func
 };
