@@ -25,7 +25,7 @@ export default class CommentSection extends Component {
             .map((comment, i) => <Comment
                 postId={this.props.post.id}
                 comment={comment}
-                key={i}
+                key={comment.id}
                 deleteCommentHandler={this.props.deleteCommentHandler}/>);
 
         return (

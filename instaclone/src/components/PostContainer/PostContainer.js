@@ -8,16 +8,30 @@ import CommentSection from '../CommentSection/CommentSection';
 export default class PostContainer extends Component {
 
     render() {
+        const {
+            post: {
+                id,
+                thumbnailUrl,
+                username,
+                imageUrl,
+                liked,
+                likes
+            },
+            toggleLikeHandler,
+            submitCommentHandler,
+            deleteCommentHandler
+        } = this.props;
+
         return (
-            <section className="PostContainer">
+            <div className="PostContainer">
                 <div className="section section-header">
-                    <img className="thumbnail" src={this.props.post.thumbnailUrl}/>
-                    <span className="username">{this.props.post.username}</span>
+                    <img className="thumbnail" src={thumbnailUrl} alt="user"/>
+                    <span className="username">{username}</span>
                 </div>
-                <img className="section section-image" src={this.props.post.imageUrl}/>
+                <img className="section section-image" src={imageUrl} alt="post"/>
                 <div className="section section-body">
-                    <span id={this.props.post.id} onClick={this.props.toggleLikeHandler}>
-                        {this.props.post.liked
+                    <span id={id} onClick={toggleLikeHandler}>
+                        {liked
                             ? <FontAwesomeIcon
                                     className="icon heart"
                                     icon={['fas', 'heart']}
@@ -30,16 +44,16 @@ export default class PostContainer extends Component {
                     <FontAwesomeIcon className="icon comment" icon={['far', 'comment']}/>
 
                     <div className="likes">
-                        {`${this.props.post.likes} Likes`}
+                        {`${likes} Likes`}
                     </div>
                 </div>
                 <div className="section section-footer">
                     <CommentSection
                         post={this.props.post}
-                        submitCommentHandler={this.props.submitCommentHandler}
-                        deleteCommentHandler={this.props.deleteCommentHandler}/>
+                        submitCommentHandler={submitCommentHandler}
+                        deleteCommentHandler={deleteCommentHandler}/>
                 </div>
-            </section>
+            </div>
         )
     }
 }
