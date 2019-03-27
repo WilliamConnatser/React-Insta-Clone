@@ -9,15 +9,16 @@ export default class PostsPage extends Component {
 
         this.state = {
             posts: [],
-            username: "KimKardashian",
+            username: "",
             filter: ""
         }
     }
 
     componentDidMount() {
-        if (localStorage.getItem('posts')) {
+        if (localStorage.posts) {
             this.setState({
-                posts: JSON.parse(localStorage.getItem('posts'))
+                posts: JSON.parse(localStorage.posts),
+                username: localStorage.username
             });
         } else {
             const parsedData = dummyData.map(post => {
@@ -25,12 +26,12 @@ export default class PostsPage extends Component {
                 post.liked = false;
                 return post;
             })
-            this.setState({posts: parsedData});
+            this.setState({posts: parsedData, username: localStorage.username});
         }
     }
 
     componentDidUpdate() {
-        localStorage.setItem('posts', JSON.stringify(this.state.posts));
+        localStorage.posts = JSON.stringify(this.state.posts);
     }
 
     toggleLikeHandler = event => {
@@ -98,13 +99,13 @@ export default class PostsPage extends Component {
                 toggleLikeHandler={this.toggleLikeHandler}
                 deleteCommentHandler={this.deleteCommentHandler}/>);
         return (
-            <div className="PostsPage">
+            <div>
                 <header>
                     <SearchBar
                         filterChangeHandler={this.filterChangeHandler}
                         filter={this.state.filter}/>
                 </header>
-                <main className="post-container">
+                <main>
                     {posts}
                 </main>
             </div>

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import styled from 'styled-components';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faHeart as faSolidHeart, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
@@ -15,12 +16,18 @@ class App extends Component {
 
     render() {
 
+        const AppWrapper = styled.div`
+            max-width: 1000px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+        `;
+
         const AuthComponent = withAuthenticate(PostsPage)(LoginPage);
 
         return (
-            <div className="App">
+            <AppWrapper>
                 <AuthComponent/>
-            </div>
+            </AppWrapper>
         );
     }
 }

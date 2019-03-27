@@ -1,8 +1,27 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import moment from 'moment';
 
 import Comment from '../Comment/Comment';
+
+const CommentSectionWrapper = styled.div `
+    .time {
+        padding: 5px 0;
+        border-bottom: 1px solid grey;
+        color: grey;
+    }
+
+    .add-comment {
+        border: 0;
+        width: 100%;
+        margin: 15px 0;
+
+        color: grey;
+        outline: none;    
+    }
+
+`;
 
 export default class CommentSection extends Component {
     constructor(props) {
@@ -29,7 +48,7 @@ export default class CommentSection extends Component {
                 deleteCommentHandler={this.props.deleteCommentHandler}/>);
 
         return (
-            <div>
+            <CommentSectionWrapper>
                 {comments}
                 <div
                     className="time"
@@ -44,7 +63,7 @@ export default class CommentSection extends Component {
                         className="add-comment"
                         placeholder="Add a comment..."/>
                 </form>
-            </div>
+            </CommentSectionWrapper>
         )
     }
 }
