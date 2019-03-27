@@ -25,12 +25,22 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const parsedData = dummyData.map(post => {
-            post.commentInput = "";
-            post.liked = false;
-            return post;
-        })
-        this.setState({posts: parsedData});
+        if (localStorage.getItem('posts')) {
+            this.setState({
+                posts: JSON.parse(localStorage.getItem('posts'))
+            });
+        } else {
+            const parsedData = dummyData.map(post => {
+                post.commentInput = "";
+                post.liked = false;
+                return post;
+            })
+            this.setState({posts: parsedData});
+        }
+    }
+
+    componentDidUpdate() {
+        localStorage.setItem('posts', JSON.stringify(this.state.posts));
     }
 
     toggleLikeHandler = event => {
@@ -65,8 +75,10 @@ class App extends Component {
 
     render() {
 
-        const posts = dummyData.filter(post => {
-            return post.username.includes(this.state.filter);
+        const posts = this.state.posts.filter(post => {
+            return post
+                .username
+                .includes(this.state.filter);
         }).map(post => <PostContainer
             post={post}
             key={post.id}
@@ -76,7 +88,9 @@ class App extends Component {
         return (
             <div className="App">
                 <header>
-                    <SearchBar filterChangeHandler={this.filterChangeHandler} filter={this.state.filter}/>
+                    <SearchBar
+                        filterChangeHandler={this.filterChangeHandler}
+                        filter={this.state.filter}/>
                 </header>
                 <main className="post-container">
                     {posts}
