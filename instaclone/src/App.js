@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-//import { faIgloo } from '@fortawesome/free-solid-svg-icons';
+import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
 import {faComment, faCompass, faHeart, faUser} from '@fortawesome/free-regular-svg-icons';
 import {faInstagram} from '@fortawesome/free-brands-svg-icons';
 
@@ -10,7 +10,7 @@ import dummyData from './dummy-data';
 import SearchBar from './components/SearchBar/SearchBar';
 import PostContainer from './components/PostContainer/PostContainer';
 
-library.add(faComment, faCompass, faInstagram, faHeart, faUser)
+library.add(faComment, faCompass, faInstagram, faHeart, faSolidHeart, faUser);
 
 class App extends Component {
 
@@ -19,58 +19,64 @@ class App extends Component {
 
         this.state = {
             posts: [],
-            username: "KimKardashian"
+            username: "KimKardashian",
+            filter: ""
         }
     }
 
     componentDidMount() {
         const parsedData = dummyData.map(post => {
             post.commentInput = "";
+            post.liked = false;
             return post;
         })
         this.setState({posts: parsedData});
     }
 
-    inputChangeHandler = event => {
+    toggleLikeHandler = event => {
         const currentPosts = [...this.state.posts];
-        const i = this.getIndexFromId(event.target.id);
-        currentPosts[i].commentInput = event.target.value;
+        const i = this.getIndexFromId(event.currentTarget.id);
+        currentPosts[i].liked = !currentPosts[i].liked;
+        currentPosts[i].liked
+            ? currentPosts[i].likes += 1
+            : currentPosts[i].likes -= 1;
         this.setState({posts: currentPosts});
     }
 
-    submitHandler = event => {
-        if (event.key === 'Enter') {
-            const currentPosts = [...this.state.posts];
-            const i = this.getIndexFromId(event.target.id);
-            currentPosts[i].comments.push({
-              username: this.state.username,
-              text: currentPosts[i].commentInput
-            });
-            currentPosts[i].commentInput = "";
+    submitCommentHandler = event => {
+        event.preventDefault();
+        const currentPosts = [...this.state.posts];
+        const i = this.getIndexFromId(event.target.id);
+        currentPosts[i]
+            .comments
+            .push({username: this.state.username, text: event.target.newcomment.value});
+        currentPosts[i].commentInput = "";
+        this.setState({posts: currentPosts});
+    }
 
-            this.setState({
-              posts: currentPosts
-            });
-        }
+    filterChangeHandler = event => {
+        this.setState({filter: event.target.value});
     }
 
     getIndexFromId(id) {
-        const currentPosts = [...this.state.posts]
-        return currentPosts.findIndex(post => post.imageUrl === id)
+        const currentPosts = [...this.state.posts];
+        return currentPosts.findIndex(post => post.id === id);
     }
 
     render() {
 
-        const posts = dummyData.map((post, i) => <PostContainer
+        const posts = dummyData.filter(post => {
+            return post.username.includes(this.state.filter);
+        }).map(post => <PostContainer
             post={post}
-            key={i}
-            inputChangeHandler={this.inputChangeHandler}
-            submitHandler={this.submitHandler}/>);
+            key={post.id}
+            submitCommentHandler={this.submitCommentHandler}
+            toggleLikeHandler={this.toggleLikeHandler}/>);
 
         return (
             <div className="App">
                 <header>
-                    <SearchBar/>
+                    <SearchBar filterChangeHandler={this.filterChangeHandler} filter={this.state.filter}/>
                 </header>
                 <main className="post-container">
                     {posts}

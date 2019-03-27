@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import moment from 'moment';
 import './PostContainer.css'
 
 import CommentSection from '../CommentSection/CommentSection';
@@ -17,30 +16,27 @@ export default class PostContainer extends Component {
                 </div>
                 <img className="section section-image" src={this.props.post.imageUrl}/>
                 <div className="section section-body">
-                    <div>
-                        <FontAwesomeIcon className="icon heart" icon={['far', 'heart']}/>
-                        <FontAwesomeIcon className="icon comment" icon={['far', 'comment']}/>
-                    </div>
+                    <span id={this.props.post.id} onClick={this.props.toggleLikeHandler}>
+                        {this.props.post.liked
+                            ? <FontAwesomeIcon
+                                    className="icon heart"
+                                    icon={['fas', 'heart']}
+                                    style={{
+                                    color: 'pink'
+                                }}/>
+                            : <FontAwesomeIcon className="icon heart" icon={['far', 'heart']}/>
+}
+                    </span>
+                    <FontAwesomeIcon className="icon comment" icon={['far', 'comment']}/>
+
                     <div className="likes">
                         {`${this.props.post.likes} Likes`}
                     </div>
-                    <CommentSection comments={this.props.post.comments}/>
-
                 </div>
                 <div className="section section-footer">
-                    <div
-                        className="time"
-                        title={moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').format('MMMM Do YYYY, h:mm a')}>
-                        {moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').fromNow()}
-                    </div>
-                    <input
-                        id={this.props.post.imageUrl}
-                        value={this.props.post.commentInput}
-                        onChange={this.props.inputChangeHandler}
-                        onKeyPress={this.props.submitHandler}
-                        className="add-comment"
-                        placeholder="Add a comment..."
-                    />
+                    <CommentSection
+                        post={this.props.post}
+                        submitCommentHandler={this.props.submitCommentHandler}/>
                 </div>
             </section>
         )
@@ -49,6 +45,7 @@ export default class PostContainer extends Component {
 
 PostContainer.propTypes = {
     post: PropTypes.shape({
+        id: PropTypes.string,
         username: PropTypes.string,
         thumbnailUrl: PropTypes.string,
         imageUrl: PropTypes.string,
@@ -56,5 +53,7 @@ PostContainer.propTypes = {
         timestamp: PropTypes.string,
         comments: PropTypes.arrayOf(PropTypes.shape({username: PropTypes.string, text: PropTypes.string})),
         commentInput: PropTypes.string
-    })
+    }),
+    submitCommentHandler: PropTypes.func,
+    toggleLikeHandler: PropTypes.func
 };
