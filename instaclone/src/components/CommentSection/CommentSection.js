@@ -42,7 +42,7 @@ export default class CommentSection extends Component {
     }
 
     render() {
-        const comments = this
+        let comments = this
             .props
             .post
             .comments
@@ -51,7 +51,9 @@ export default class CommentSection extends Component {
                 comment={comment}
                 key={comment.id}
                 deleteCommentHandler={this.props.deleteCommentHandler}/>)
-            .slice(0, this.props.commentLimit);
+
+        //If comment section is hidden, only show the OP
+        if(this.props.commentLimit === 1) comments = comments.slice(0, 1);
 
         return (
             <CommentSectionWrapper>

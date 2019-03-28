@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import dummyData from '../../dummy-data';
+
 import SearchBar from '../SearchBar/SearchBar';
 import PostContainer from '../PostContainer/PostContainer';
 import AddPost from '../AddPost/AddPost';
@@ -11,6 +13,8 @@ export default class PostsPage extends Component {
         this.state = {
             posts: [],
             username: "",
+            userAvatar: "https://vignette.wikia.nocookie.net/payday/images/5/55/Anon.jpg/revision/latest?" +
+                    "cb=20140609174443",
             filter: "",
             addPost: false
         }
@@ -93,6 +97,42 @@ export default class PostsPage extends Component {
         })
     }
 
+    submitAddPostHandler = event => {
+        event.preventDefault();
+
+        console.log(this.state.userAvatar)
+
+        //Get the last char code in the id string, and add 1 to it
+        const lastId = this.state.posts[this.state.posts.length - 1].id;
+        const id = String.fromCharCode(lastId.charCodeAt(lastId.length - 1) + 1);
+        console.log(id)
+        const username = this.state.username;
+        const thumbnailUrl = this.state.userAvatar;
+        const imageUrl = event.target.imageUrl.value;
+        const likes = 0;
+        const timestamp = moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
+        const comments = [
+            {
+                id: '1',
+                username,
+                text: event.target.caption.value
+            }
+        ]
+
+        const currentPosts = [...this.state.posts];
+        currentPosts.push({
+            id,
+            username,
+            thumbnailUrl,
+            imageUrl,
+            likes,
+            timestamp,
+            comments
+        });
+
+        this.setState({posts: currentPosts});
+    }
+
     getIndexFromId(id) {
         const currentPosts = [...this.state.posts];
         return currentPosts.findIndex(post => post.id === id);
@@ -113,7 +153,7 @@ export default class PostsPage extends Component {
                 key={post.id}
                 submitCommentHandler={this.submitCommentHandler}
                 toggleLikeHandler={this.toggleLikeHandler}
-                deleteCommentHandler={this.deleteCommentHandler}/>);
+                deleteCommentHandler={this.deleteCommentHandler}/>).reverse();
         return (
             <div>
                 <header>
@@ -123,7 +163,9 @@ export default class PostsPage extends Component {
                         filter={filter}/>
                 </header>
                 <main>
-                    {this.state.addPost ? <AddPost/> : null }
+                    {this.state.addPost
+                        ? <AddPost submitAddPostHandler={this.submitAddPostHandler}/>
+                        : null}
                     {posts}
                 </main>
             </div>
