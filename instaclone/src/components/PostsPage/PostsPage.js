@@ -55,6 +55,13 @@ export default class PostsPage extends Component {
                 username: this.state.username,
                 text: event.target.newcomment.value
             });
+
+        currentPosts[i]
+            .comments
+            .map(function (comment, index) {
+                comment.id = index + 1 + "";
+                return comment;
+            });
         currentPosts[i].commentInput = "";
         this.setState({posts: currentPosts});
     }
@@ -84,13 +91,14 @@ export default class PostsPage extends Component {
     }
 
     render() {
+        const filter = this.state.filter;
         const posts = this
             .state
             .posts
             .filter(post => {
                 return post
                     .username
-                    .includes(this.state.filter);
+                    .includes(filter);
             })
             .map(post => <PostContainer
                 post={post}
@@ -103,7 +111,7 @@ export default class PostsPage extends Component {
                 <header>
                     <SearchBar
                         filterChangeHandler={this.filterChangeHandler}
-                        filter={this.state.filter}/>
+                        filter={filter}/>
                 </header>
                 <main>
                     {posts}

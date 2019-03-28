@@ -6,21 +6,24 @@ import moment from 'moment';
 import Comment from '../Comment/Comment';
 
 const CommentSectionWrapper = styled.div `
-    .time {
-        padding: 5px 0;
-        border-bottom: 1px solid grey;
-        color: grey;
-    }
+    
+`;
 
-    .add-comment {
-        border: 0;
-        width: 100%;
-        margin: 15px 0;
+const TimeWrapper = styled.div`
+    padding: 5px 0;
+    border-bottom: 1px solid grey;
 
-        color: grey;
-        outline: none;    
-    }
+    font-size: .9rem;
+    color: grey;
+`;
 
+const InputWrapper = styled.input `
+    border: 0;
+    width: 100%;
+    margin: 15px 0;
+
+    color: grey;
+    outline: none;
 `;
 
 export default class CommentSection extends Component {
@@ -50,17 +53,15 @@ export default class CommentSection extends Component {
         return (
             <CommentSectionWrapper>
                 {comments}
-                <div
-                    className="time"
+                <TimeWrapper
                     title={moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').format('MMMM Do YYYY, h:mm a')}>
                     {moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').fromNow()}
-                </div>
+                </TimeWrapper>
                 <form id={this.props.post.id} onSubmit={this.props.submitCommentHandler}>
-                    <input
+                    <InputWrapper
                         id="newcomment"
                         value={this.state.commentInput}
                         onChange={this.inputChangeHandler}
-                        className="add-comment"
                         placeholder="Add a comment..."/>
                 </form>
             </CommentSectionWrapper>

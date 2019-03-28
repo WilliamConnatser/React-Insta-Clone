@@ -11,49 +11,69 @@ const SearchBarWrapper = styled.div`
 
     color: #2c2c2c;
 
-
-    .section {
-        display: flex;
+    @media(max-width:500px) {
+        flex-direction: column;
         align-items: center;
-        width: 33%;
     }
+`;
 
-    .section__left {
-        justify-content: flex-start;
-    }
-
-    .section__middle {
-        justify-content: center;
-    }
-
-    .section__right {
-        justify-content: flex-end;
-    }
+const LeftWrapper = styled.div`
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 
     .logo {
         font-size: 3rem;
     }
 
-    .title {
-        margin-left: 20px;
-        padding-left: 20px;
-        border-left: 1px solid grey;
-        font-size: 1.7rem;
+    @media(max-width:500px) {
+        justify-content: center;
     }
+`;
 
-    .input {
-        border: 1px solid grey;
-        height: 30px;
+const TitleWrapper = styled.div`
+    font-family: 'Vegan-Style';
+    margin-left: 20px;
+    padding-left: 20px;
+    border-left: 1px solid grey;
+    font-size: 1.7rem;
+`;
 
-        outline: none;
-        background: lightgray;
-        text-align: center;
+const MiddleWrapper = styled.div`
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const InputWrapper = styled.input`
+    border: 1px solid grey;
+    height: 30px;
+
+    outline: none;
+    background: lightgray;
+    text-align: center;
+
+    @media(max-width:500px) {
+        margin: 10px 0;
     }
+`;
+
+const RightWrapper = styled.div`
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 
     .icon {
         font-size: 2rem;
         font-weight: 300;
         margin: 0 20px;
+    }
+
+    @media(max-width:500px) {
+        justify-content: center;
     }
 `;
 
@@ -62,22 +82,21 @@ export default class SearchBar extends Component {
     render() {
         return (
             <SearchBarWrapper>
-                <div className="section section__left">
+                <LeftWrapper>
                     <FontAwesomeIcon className="logo" icon={['fab', 'instagram']}/>
-                    <span className="title">Instagram</span>
-                </div>
-                <div className="section section__middle">
-                    <input
-                        className="input"
+                    <TitleWrapper>Instaclone</TitleWrapper>
+                </LeftWrapper>
+                <MiddleWrapper>
+                    <InputWrapper
                         value={this.props.filter}
                         onChange={this.props.filterChangeHandler}
                         placeholder="Search"/>
-                </div>
-                <div className="section section__right">
-                    <FontAwesomeIcon className="icon compass" icon={['far', 'compass']}/>
-                    <FontAwesomeIcon className="icon heart" icon={['far', 'heart']}/>
-                    <FontAwesomeIcon className="icon user" icon={['far', 'user']}/>
-                </div>
+                </MiddleWrapper>
+                <RightWrapper>
+                    <FontAwesomeIcon className="icon" icon={['far', 'compass']}/>
+                    <FontAwesomeIcon className="icon" icon={['far', 'heart']}/>
+                    <FontAwesomeIcon className="icon" icon={['far', 'user']}/>
+                </RightWrapper>
             </SearchBarWrapper>
         )
     }

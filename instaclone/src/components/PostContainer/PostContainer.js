@@ -10,50 +10,49 @@ const PostWrapper = styled.div `
     flex-wrap: wrap;
     border: 1px solid grey;
     margin: 30px auto;
-    width: 80%;
+    width: 95%;
     max-width: 550px;
+`;
 
-    .section {
-        width: 100%;
-    }
+const HeaderWrapper = styled.div `
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+`;
 
-    .section-header {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-    }
+const ThumbnailWrapper = styled.img `
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 20px;
+`;
 
-    .section-header .thumbnail {
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
+const UsernameWrapper = styled.span `
+    font-size: 1.2rem;
+`;
 
-    .section-header .username {
-        font-size: 1.2rem;
-    }
+const ImageWrapper = styled.img `
+    width: 100%;
+    height: 300px;
+`;
 
-    .section-image {
-        height: 300px;
-    }
+const PostInfoWrapper = styled.div `
+    width: 100%;
+    margin: 15px;
+`;
 
-    .section-body {
-        margin: 15px;
-    }
-
-    .section-body .icon {
+const IconWrapper = styled.span `
+    .icon {
         margin-right: 15px;
+
+        cursor: pointer;
         font-size: 2rem;
     }
+`;
 
-    .section-body .likes {
-        margin: 15px 0;
-        font-size: 1.3rem;
-    }
-
-    .section-footer {
-        margin: 0 15px;
-    }
+const LikesWrapper = styled.div `
+    margin: 15px 0;
+    font-size: 1.3rem;
 `;
 
 export default class PostContainer extends Component {
@@ -97,35 +96,40 @@ export default class PostContainer extends Component {
 
         return (
             <PostWrapper>
-                <div className="section section-header">
-                    <img className="thumbnail" src={thumbnailUrl} alt="user"/>
-                    <span className="username">{username}</span>
-                </div>
-                <img className="section section-image" src={imageUrl} alt="post"/>
-                <div className="section section-body">
-                    <span id={id} onClick={toggleLikeHandler}>
+                <HeaderWrapper>
+                    <ThumbnailWrapper src={thumbnailUrl} alt="user"/>
+                    <UsernameWrapper>{username}</UsernameWrapper>
+                </HeaderWrapper>
+                <ImageWrapper src={imageUrl} alt="post"/>
+                <PostInfoWrapper>
+                    <IconWrapper id={id} onClick={toggleLikeHandler}>
                         {liked
                             ? <FontAwesomeIcon
-                                    className="icon heart"
+                                    className="icon"
                                     icon={['fas', 'heart']}
                                     style={{
                                     color: 'pink'
                                 }}/>
-                            : <FontAwesomeIcon className="icon heart" icon={['far', 'heart']}/>
+                            : <FontAwesomeIcon className="icon" icon={['far', 'heart']}/>
 }
-                    </span>
-                    <span onClick={this.toggleCommentSectionHandler}>
-                        <FontAwesomeIcon className="icon comment" icon={['far', 'comment']}/>
-                    </span>
+                    </IconWrapper>
+                    <IconWrapper onClick={this.toggleCommentSectionHandler}>
+                        {this.state.showCommentSection
+                            ? <FontAwesomeIcon className="icon" icon={['fa', 'comment']}/>
+                            : <FontAwesomeIcon className="icon" icon={['far', 'comment']}/>
+}
 
-                    <div className="likes">
+                    </IconWrapper>
+
+                    <LikesWrapper>
                         {`${likes} Likes`}
-                    </div>
+                    </LikesWrapper>
 
-                    {
-                        this.state.showCommentSection ? commentSection : null
-                    }
-                </div>
+                    {this.state.showCommentSection
+                        ? commentSection
+                        : null
+}
+                </PostInfoWrapper>
 
             </PostWrapper>
         )

@@ -11,6 +11,10 @@ const LoginWrapper = styled.div `
     height: 100vh;
 `;
 
+const Title = styled.h1 `
+    font-family: 'Vegan-Style';
+`;
+
 const Form = styled.form `
     display: flex;
     flex-direction: column;
@@ -19,6 +23,7 @@ const Form = styled.form `
 
     width: 100%;
     max-width: 400px;
+    margin-top: 20px;
 
     * {
         margin: 5px 0;
@@ -32,8 +37,14 @@ const Form = styled.form `
 `;
 
 const Button = styled.button `
+    cursor: pointed;
     color: white;
     background: grey;
+
+    &:hover {
+        background: white;
+        color: grey;
+    }
 `;
 
 export default class Login extends Component {
@@ -60,7 +71,7 @@ export default class Login extends Component {
 
         return (
             <LoginWrapper>
-                <h1>InstaClone</h1>
+                <Title>Instaclone</Title>
                 <FontAwesomeIcon
                     className="logo"
                     icon={['fab', 'instagram']}
