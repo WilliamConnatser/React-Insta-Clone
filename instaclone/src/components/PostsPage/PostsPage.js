@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import dummyData from '../../dummy-data';
 import SearchBar from '../SearchBar/SearchBar';
 import PostContainer from '../PostContainer/PostContainer';
+import AddPost from '../AddPost/AddPost';
 
 export default class PostsPage extends Component {
     constructor() {
@@ -10,7 +11,8 @@ export default class PostsPage extends Component {
         this.state = {
             posts: [],
             username: "",
-            filter: ""
+            filter: "",
+            addPost: false
         }
     }
 
@@ -85,6 +87,12 @@ export default class PostsPage extends Component {
         this.setState({posts: currentPosts});
     }
 
+    toggleAddPostHandler = _ => {
+        this.setState({
+            addPost: !this.state.addPost
+        })
+    }
+
     getIndexFromId(id) {
         const currentPosts = [...this.state.posts];
         return currentPosts.findIndex(post => post.id === id);
@@ -111,9 +119,11 @@ export default class PostsPage extends Component {
                 <header>
                     <SearchBar
                         filterChangeHandler={this.filterChangeHandler}
+                        toggleAddPostHandler={this.toggleAddPostHandler}
                         filter={filter}/>
                 </header>
                 <main>
+                    {this.state.addPost ? <AddPost/> : null }
                     {posts}
                 </main>
             </div>

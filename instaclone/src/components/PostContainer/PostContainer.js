@@ -85,12 +85,16 @@ export default class PostContainer extends Component {
             deleteCommentHandler
         } = this.props;
 
+        const limit = this.state.showCommentSection
+            ? -1
+            : 1;
         const commentSection = (
             <div className="section section-footer">
                 <CommentSection
                     post={this.props.post}
                     submitCommentHandler={submitCommentHandler}
-                    deleteCommentHandler={deleteCommentHandler}/>
+                    deleteCommentHandler={deleteCommentHandler}
+                    commentLimit={limit}/>
             </div>
         )
 
@@ -125,10 +129,7 @@ export default class PostContainer extends Component {
                         {`${likes} Likes`}
                     </LikesWrapper>
 
-                    {this.state.showCommentSection
-                        ? commentSection
-                        : null
-}
+                    {commentSection}
                 </PostInfoWrapper>
 
             </PostWrapper>

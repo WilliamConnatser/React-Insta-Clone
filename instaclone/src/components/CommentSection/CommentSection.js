@@ -9,9 +9,8 @@ const CommentSectionWrapper = styled.div `
     
 `;
 
-const TimeWrapper = styled.div`
+const TimeWrapper = styled.div `
     padding: 5px 0;
-    border-bottom: 1px solid grey;
 
     font-size: .9rem;
     color: grey;
@@ -21,7 +20,10 @@ const InputWrapper = styled.input `
     border: 0;
     width: 100%;
     margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px solid grey;
 
+    font-size: 1.1rem;
     color: grey;
     outline: none;
 `;
@@ -48,7 +50,8 @@ export default class CommentSection extends Component {
                 postId={this.props.post.id}
                 comment={comment}
                 key={comment.id}
-                deleteCommentHandler={this.props.deleteCommentHandler}/>);
+                deleteCommentHandler={this.props.deleteCommentHandler}/>)
+            .slice(0, this.props.commentLimit);
 
         return (
             <CommentSectionWrapper>
@@ -57,13 +60,16 @@ export default class CommentSection extends Component {
                     title={moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').format('MMMM Do YYYY, h:mm a')}>
                     {moment(this.props.post.timestamp, 'MMMM Do YYYY, h:mm:ss a').fromNow()}
                 </TimeWrapper>
-                <form id={this.props.post.id} onSubmit={this.props.submitCommentHandler}>
-                    <InputWrapper
-                        id="newcomment"
-                        value={this.state.commentInput}
-                        onChange={this.inputChangeHandler}
-                        placeholder="Add a comment..."/>
-                </form>
+                {this.props.commentLimit < 1
+                    ? <form id={this.props.post.id} onSubmit={this.props.submitCommentHandler}>
+                            <InputWrapper
+                                id="newcomment"
+                                value={this.state.commentInput}
+                                onChange={this.inputChangeHandler}
+                                placeholder="Add a comment..."/>
+                        </form>
+                    : null
+}
             </CommentSectionWrapper>
         )
     }
@@ -77,5 +83,6 @@ CommentSection.propTypes = {
         commentInput: PropTypes.string
     }),
     submitCommentHandler: PropTypes.func,
-    deleteCommentHandler: PropTypes.func
+    deleteCommentHandler: PropTypes.func,
+    commentLimit: PropTypes.number
 };

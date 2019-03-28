@@ -65,6 +65,7 @@ const RightWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    cursor: pointer;
 
     .icon {
         font-size: 2rem;
@@ -77,7 +78,7 @@ const RightWrapper = styled.div`
     }
 `;
 
-export default class SearchBar extends Component {   
+export default class SearchBar extends Component {
 
     render() {
         return (
@@ -93,6 +94,7 @@ export default class SearchBar extends Component {
                         placeholder="Search"/>
                 </MiddleWrapper>
                 <RightWrapper>
+                    <span onClick={this.props.toggleAddPostHandler}><FontAwesomeIcon className="icon" icon={['far', 'plus-square']}/></span>
                     <FontAwesomeIcon className="icon" icon={['far', 'compass']}/>
                     <FontAwesomeIcon className="icon" icon={['far', 'heart']}/>
                     <FontAwesomeIcon className="icon" icon={['far', 'user']}/>
@@ -104,5 +106,6 @@ export default class SearchBar extends Component {
 
 SearchBar.propTypes = {
     filterChangeHandler: PropTypes.func,
+    toggleAddPostHandler: PropTypes.func,
     filter: PropTypes.string
 }
